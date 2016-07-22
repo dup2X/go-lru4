@@ -14,11 +14,12 @@ func TestLRU4(t *testing.T) {
 		c.Add(fmt.Sprintf("key-%d", i), i)
 	}
 	for i := 0; i < 14; i++ {
-		val, ok := c.Get(fmt.Sprintf("key-%d", i))
-		if ok {
-			println(val.(int))
-		} else {
-			println("miss", i)
+		_, ok := c.Get(fmt.Sprintf("key-%d", i))
+		if ok && i < 4 {
+			t.FailNow()
+		}
+		if !ok && i > 3 {
+			t.FailNow()
 		}
 	}
 }
